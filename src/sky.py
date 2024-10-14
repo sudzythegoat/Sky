@@ -1,14 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 import pymem as pm
+import psutil
 import os
 import time
 
 processes = []
 
 def getprocess():
-    for process in #runningprocesses:
-        processes.append(process)
+    global processes
+    processes.clear() 
+    for process in psutil.process_iter(['pid', 'name']):
+        try:
+            processes.append(process.info['name'])
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
 
 def app():
     global processes
@@ -25,4 +31,5 @@ def app():
     sky.mainloop()
 
 if __name__ == "__main__":
-    app():
+    getprocess()
+    app()
