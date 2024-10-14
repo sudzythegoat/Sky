@@ -17,7 +17,6 @@ def getprocess():
             pass
 
 def app():
-    global processes
     sky = tk.Tk()
     sky.geometry("280x320")
     sky.iconbitmap("logo.ico")
@@ -25,6 +24,8 @@ def app():
     process_option = tk.StringVar()
     process_option.set("Select Process")
     process_selected = ttk.OptionMenu(sky, process_option, *processes)
+    
+    
     
     processlabel.pack(pady=10)
     process_selected.pack(pady=10)
